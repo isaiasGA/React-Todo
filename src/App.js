@@ -1,31 +1,31 @@
 import React from 'react';
 import  {ExampleData} from './components/ExampleData';
 import TodoList from './components/TodoComponents/TodoList';
-import TodoForm from './components/TodoComponents/TodoForm';
+// import TodoForm from './components/TodoComponents/TodoForm';
 
 class App extends React.Component {
  constructor () {
    super();
    this.state = {
-    data: ExampleData,
-    task: '',
-    id:Date.now(),
-    completed: false,
+     ExampleData,
+    // task: '',
+    // id:Date.now(),
+    // completed: false,
    }
  }
 
-addTask = (event) => {
-  event.preventDefault();
-  const newTask = {
-    task: this.state.task,
-    id: this.state.id,
-    completed: this.state.completed,
-  }
+// addTask = (event) => {
+//   event.preventDefault();
+//   const newTask = {
+//     task: this.state.task,
+//     id: this.state.id,
+//     completed: this.state.completed,
+//   }
   
-  this.setState({
-    data: [...this.state.data, newTask],
-  });
-};
+//   this.setState({
+//     data: [...this.state.data, newTask],
+//   });
+// };
 
 /*
   * addTask: It creates a new task object each time its called.
@@ -42,13 +42,52 @@ addTask = (event) => {
    -It is used in order to update state.
  - Spread operator: It is used in order to copy the old data from an old array into a new array
 */
+toggleTask = id => {
+  this.setState(prevState => {
+   return { 
+    ExampleData: prevState.ExampleData.map(task => {
+       if (task.id === id) {
+          return {
+            ...task,
+            completed: !task.completed 
+          };
+       } else {
+         return task;
+       }
+     })
+    };
+  });
+};
 
+/*
+ "if the task on this loop, mapped, is the task that we clicked on, then we will return a new task object"
+    "If the the task that we looked up is not the task we CLICKED ON then it the old object in state will be returned untouched"  
+         "else {
+             return task;"
+      
+  - completed property will be overritten with the OPPOSITE, "!task"  OF  our old completed property.
+*/
+
+/* - toggle will allow us to identify the right item that the user clicked on.
+  - toggleTask: A fucntion that will allows us to UPDATE our state by updating a single ITEM or OBJECT on our STATE DATA.
+    - we are going to loop through "this.state.data" one item at a time, and find the correct ITEM/object that we clicked on in order to toggle the correct property.
+  - id: It is passed in as an argument in order to acccess "id" from  our data in state.
+     - "id" is passed down as an ARGUMENT to  "Todo.js"
+  - SPREAD OPERATOR ... : It is being used to  build a new object. *Old properties from old array will be passed down to new object and OVERWRITING "completed field"
+
+
+ -It is important to write ARROW FUNCTIONS inside class components, IN ORDER TO BIND the function with the class component otherwise, the function will not
+   be recognized.
+*/
   render() {
     return (
       <div className='main-content'>
         <h1>Todo List</h1>
-       <TodoList passedData={this.state.data} />
-       <TodoForm addTask={this.addTask} />
+       <TodoList
+          passedData={this.state.ExampleData} 
+          toggleTask={this.toggleTask}
+          />
+    
       </div>
     );
   }
