@@ -1,31 +1,36 @@
 import React from 'react';
 import  {ExampleData} from './components/ExampleData';
 import TodoList from './components/TodoComponents/TodoList';
-// import TodoForm from './components/TodoComponents/TodoForm';
+import TodoForm from './components/TodoComponents/TodoForm';
 
 class App extends React.Component {
  constructor () {
    super();
    this.state = {
      ExampleData,
-    // task: '',
-    // id:Date.now(),
-    // completed: false,
    }
  }
 
-// addTask = (event) => {
-//   event.preventDefault();
-//   const newTask = {
-//     task: this.state.task,
-//     id: this.state.id,
-//     completed: this.state.completed,
-//   }
+addTask = (taskName) => {
+  const newTask = {
+    task: taskName,
+    id: Date.now(),
+    completed: false,
+  }
   
-//   this.setState({
-//     data: [...this.state.data, newTask],
-//   });
-// };
+  this.setState(prevState => {
+    return {
+    ExampleData: [...prevState.ExampleData, newTask],
+    }
+  });
+};
+
+/*
+ - prevState: It refers to the items and our state date, "exampledata"
+ - "newTask" will be added to the back of the array/
+
+ -"newTask": It is being passed down as an ARGUMENT in our addTask function because we are missing task name.
+*/
 
 /*
   * addTask: It creates a new task object each time its called.
@@ -82,7 +87,10 @@ toggleTask = id => {
   render() {
     return (
       <div className='main-content'>
-        <h1>Todo List</h1>
+        <div className='header'>
+          <h1>Todo List</h1>
+          < TodoForm addTask={this.addTask}/>
+        </div>
        <TodoList
           passedData={this.state.ExampleData} 
           toggleTask={this.toggleTask}

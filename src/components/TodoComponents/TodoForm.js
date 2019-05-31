@@ -2,8 +2,8 @@ import React from 'react';
 
 
 class TodoForm extends React.Component {
-    constructor(props) {
-        super (props);
+    constructor() {
+        super ();
         this.state = {
             task: ''
         };
@@ -13,25 +13,36 @@ class TodoForm extends React.Component {
   - list:'': A value that wwill control our INPUT.
 */
 
-//     handleChanges = event => {
-//         this.setState({
-//             [event.target.name]: event.target.value
-//         });
-//     };
+    handleChanges = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    };
 
-// /*
-//   * handleChanges: It is a useful function that is used when multiple INPUTS need to be handled.
-//    - It identifies the correct input when a user types in in order to update it on state with the VALUE that was typed.
+/*
+  * handleChanges: It identifies the correct input when a user types in our form in order to update state with the VALUE that was typed.
+    -  [event.target.name]: It is usuallly used to control multiple INPUTS but it can also be used for one input
+  * Each time our user types inside our input, "todo", we will run "this.setState"
+     - we set up setState to list: "" property because it is controlling our input below
+  * HANDLECHANGES: a FUNCTION that will allow an user to TYPE in our form
+        - This function will update our state, list:'asdd', each time an user types input, "asdd"
+*/
 
-//   * Each time our user types inside our input, "todo", we will run "this.setState"
-//      - we set up setState to list: "" property because it is controlling our input below
-//   * HANDLECHANGES: a FUNCTION that will allow an user to TYPE in our form
-//         - This function will update our state, list:'asdd', each time an user types input, "asdd"
-// */
+addTask = event => {
+  event.preventDefault(); //will prevent refresh
+  this.props.addTask(this.state.task); //will add new task to our list
+  this.setState({   //will reset our form when we submit our form.
+     task: ''
+  });
+};
+
+/*
+  - "onSubmit={this.addTask}>": a handler that will trigger the "addTask" class property, above
+*/
 
 render() {
     return (
-        <form onSubmit={props.addTask}>
+        <form onSubmit={this.addTask}>
           <input placeholder='...todo'
             type='text'
             value={this.state.task}
@@ -56,9 +67,9 @@ render() {
              - handlechanges function allows the user to actually TYPE inside our form!!!
 */
 
-// } 
+} 
 
-// export default TodoForm;
+export default TodoForm;
 
 
 
