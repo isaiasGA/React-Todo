@@ -40,6 +40,14 @@ addTask = event => {
   - "onSubmit={this.addTask}>": a handler that will trigger the "addTask" class property, above
 */
 
+clearTasks = event => {
+  event.preventDefault ();
+  this.props.clearTasks(this.state.task)
+  this.setState({
+    task: ''
+ });
+}
+
 render() {
     return (
         <form onSubmit={this.addTask}>
@@ -50,7 +58,7 @@ render() {
             onChange={this.handleChanges}
             />
             <button>Add Todo</button>
-            <button>Clear Completed</button>
+            <button onClick={this.clearTasks}>Clear Completed</button>
         </form>
     )
 }

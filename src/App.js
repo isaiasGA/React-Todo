@@ -8,6 +8,7 @@ class App extends React.Component {
    super();
    this.state = {
      ExampleData,
+     message: ''
    }
  }
 
@@ -17,8 +18,7 @@ addTask = (taskName) => {
     id: Date.now(),
     completed: false,
   }
-  
-  this.setState(prevState => {
+   newTask !== '' && this.setState(prevState => {
     return {
     ExampleData: [...prevState.ExampleData, newTask],
     }
@@ -47,6 +47,7 @@ addTask = (taskName) => {
    -It is used in order to update state.
  - Spread operator: It is used in order to copy the old data from an old array into a new array
 */
+
 toggleTask = id => {
   this.setState(prevState => {
    return { 
@@ -72,7 +73,6 @@ toggleTask = id => {
       
   - completed property will be overritten with the OPPOSITE, "!task"  OF  our old completed property.
 */
-
 /* - toggle will allow us to identify the right item that the user clicked on.
   - toggleTask: A fucntion that will allows us to UPDATE our state by updating a single ITEM or OBJECT on our STATE DATA.
     - we are going to loop through "this.state.data" one item at a time, and find the correct ITEM/object that we clicked on in order to toggle the correct property.
@@ -84,12 +84,22 @@ toggleTask = id => {
  -It is important to write ARROW FUNCTIONS inside class components, IN ORDER TO BIND the function with the class component otherwise, the function will not
    be recognized.
 */
-  render() {
+  
+clearTasks = () => {
+  this.setState({
+    ExampleData: this.state.ExampleData.filter(task => !task.completed)
+  })
+}
+
+render() {
     return (
       <div className='main-content'>
         <div className='header'>
           <h1>Todo List</h1>
-          < TodoForm addTask={this.addTask}/>
+          < TodoForm 
+          addTask={this.addTask}
+          clearTasks={this.clearTasks}
+          />
         </div>
        <TodoList
           passedData={this.state.ExampleData} 
